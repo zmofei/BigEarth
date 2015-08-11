@@ -1,0 +1,16 @@
+{
+  "name": "BigEarth",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zmofei/BigEarth",
+  "authors": [
+    "Mofei Zhu <13761509829@163.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
