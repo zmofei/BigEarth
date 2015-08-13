@@ -28,7 +28,6 @@ var render = function() {
     requirejs(['statsFrame'], function(stats) {
         stats.update()
     });
-    // stats.update();
     requestAnimationFrame(render);
 };
 
@@ -44,10 +43,16 @@ requirejs(['earth'], function(earth) {
     scene.add(earth)
 })
 
-// atmosphere
+//field
+requirejs(['field'], function(field) {
+    scene.add(field)
+})
+
+// // atmosphere
 requirejs(['atmosphere'], function(atmosphere) {
     scene.add(atmosphere)
 })
 
 // var backgroundLight = new THREE.HemisphereLight(0x002A52, 0x000000, 7);
 // scene.add(backgroundLight);
+//
