@@ -44,7 +44,7 @@ define(function() {
         //
         var meshSmall = new THREE.PointCloud(geometrySmall, new THREE.PointCloudMaterial({
             size: 0.5,
-            color: 'skyblue',
+            color: '#ffffff',
             blending: THREE.AdditiveBlending,
             depthWrite: false,
             opacity: 0.4,

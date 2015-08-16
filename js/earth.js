@@ -8,7 +8,8 @@ define(function() {
 
     var geometry = new THREE.SphereGeometry(300, 100, 50);
     var material = new THREE.MeshPhongMaterial({
-        map: THREE.ImageUtils.loadTexture('img/earthmap1k.png')
+        // map: THREE.ImageUtils.loadTexture('img/earthmap1k.png')
+        map: THREE.ImageUtils.loadTexture('img/night.png')
     });
 
     material.bumpMap = THREE.ImageUtils.loadTexture('img/earthbump1k.png')
@@ -20,18 +21,26 @@ define(function() {
     var mesh = new THREE.Mesh(geometry, material);
     earth.add(mesh)
 
+    // cloud
     var cloudGeometry = new THREE.SphereGeometry(310, 100, 50)
     var cloudMaterial = new THREE.MeshPhongMaterial({
         map: THREE.ImageUtils.loadTexture('img/earthcloudmap.png'),
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.8,
-        depthWrite  : false,
+        opacity: 0.3,
+        depthWrite: false,
     })
     var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial)
     earth.add(cloudMesh);
+    requirejs(['renderFcts'], function(fcts) {
+        fcts.listen(function(){
+            cloudMesh.rotateY(0.0002);
+        })
+    });
+    //
 
-    earth.rotateY(-Math.PI/2)
+    earth.rotateY(-Math.PI / 2);
+
     return earth;
 
     ////////////////
