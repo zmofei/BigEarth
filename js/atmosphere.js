@@ -11,7 +11,25 @@ define(['effectComposer', 'copyShader', 'shaderPass', 'renderPass', 'additiveBle
 
     var ballGeometry = new THREE.SphereGeometry(300 * 1.2, 32, 16);
     var ball = new THREE.Mesh(ballGeometry, customMaterial);
+    requirejs(['renderFcts'], function(fcts) {
+        fcts.listen(function() {
+            var x = camera.position.x;
+            var y = camera.position.y;
+            var z = camera.position.z;
+            var d = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2), 2);
+            var sacle;
+            if (d < 600) {
+                sacle = (600 - d) / 100 * 0.45 + 1;
+            } else {
+                sacle = 1
+            }
+            console.log(sacle)
+            ball.scale.x = ball.scale.y = ball.scale.z = sacle
+        })
+    });
     return ball;
+
+    //
     // scene.add(ball);
 
     //****
