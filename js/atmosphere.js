@@ -1,5 +1,19 @@
 define(['effectComposer', 'copyShader', 'shaderPass', 'renderPass', 'additiveBlendShader', 'maskPass'], function() {
 
+    var customMaterial = new THREE.ShaderMaterial({
+        uniforms: {},
+        vertexShader: document.getElementById('vertexShader').textContent,
+        fragmentShader: document.getElementById('fragmentShader').textContent,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
+
+    var ballGeometry = new THREE.SphereGeometry(300 * 1.2, 32, 16);
+    var ball = new THREE.Mesh(ballGeometry, customMaterial);
+    return ball;
+    // scene.add(ball);
+
     //****
     // var atmosphereScene = new THREE.Scene();
     // var camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);

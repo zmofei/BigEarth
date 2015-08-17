@@ -42,13 +42,7 @@ requirejs(['atmosphere'], function(atmosphere) {
 //
 var render = function() {
     controls.update();
-    if(atmo){
-        for(var i in atmo){
-            atmo[i].render()
-        }
-    }else{
-        renderer.render(scene, camera);
-    }
+    renderer.render(scene, camera);
 
     requirejs(['statsFrame', 'renderFcts'], function(stats, fcts) {
         fcts.update();
