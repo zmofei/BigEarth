@@ -45,12 +45,22 @@ requirejs(['atmosphere'], function(atmosphere) {
 
 // var backgroundLight = new THREE.HemisphereLight(0x002A52, 0x000000, 7);
 // scene.add(backgroundLight);
+var speed = 0.0003;
+window.addEventListener('keydown', function(e) {
+    if (e.keyCode == 37) {
+        speed -= 0.0005;
+    }
+    if (e.keyCode == 39) {
+        speed += 0.0005;
+    }
+    console.log(speed);
+});
 
 //
 var render = function() {
     controls.update();
     renderer.render(scene, camera);
-    earths.rotateY(0.0003)
+    earths.rotateY(speed)
     requirejs(['statsFrame', 'renderFcts'], function(stats, fcts) {
         fcts.update();
         stats.update();
