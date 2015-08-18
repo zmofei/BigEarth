@@ -6,7 +6,9 @@ console.time('total');
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
-camera.position.z = 400;
+camera.position.x = 400;
+camera.position.y = 230;
+camera.position.z = -100;
 
 var controls = new THREE.TrackballControls(camera);
 
@@ -14,25 +16,30 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+var earths = new THREE.Object3D();
+scene.add(earths);
 // lightPoint
 requirejs(['lightPoint'], function(light) {
-    scene.add(light);
+    earths.add(light);
 })
 
 // earth
 requirejs(['earth'], function(earth) {
-    scene.add(earth)
+    earths.add(earth)
 })
 
 //field
 requirejs(['field'], function(field) {
     scene.add(field)
 })
+requirejs(['stars'], function(stars) {
+    scene.add(stars)
+})
 
 // atmosphere
 var atmo;
 requirejs(['atmosphere'], function(atmosphere) {
-    scene.add(atmosphere);
+    earths.add(atmosphere);
     // atmo = atmosphere;
 })
 
@@ -43,7 +50,7 @@ requirejs(['atmosphere'], function(atmosphere) {
 var render = function() {
     controls.update();
     renderer.render(scene, camera);
-
+    earths.rotateY(0.0003)
     requirejs(['statsFrame', 'renderFcts'], function(stats, fcts) {
         fcts.update();
         stats.update();

@@ -32,45 +32,30 @@ define(function() {
     })
     var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial)
     earth.add(cloudMesh);
+    //
+    earth.rotateY(-Math.PI / 2);
+
     requirejs(['renderFcts'], function(fcts) {
-        fcts.listen(function(){
+        fcts.listen(function() {
             cloudMesh.rotateY(0.0002);
+            //
+            var x = camera.position.x;
+            var y = camera.position.y;
+            var z = camera.position.z;
+            var d = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2), 2);
+            var alpha;
+            if (d >= 600) {
+                alpha = 1
+            } else if (d <= 470) {
+                alpha = 0.2
+            } else {
+                alpha = (d - 470) / (600 - 470) * 0.8 + 0.2;
+            }
+            cloudMesh.material.opacity = alpha;
         })
     });
-    //
-
-    earth.rotateY(-Math.PI / 2);
 
     return earth;
 
     ////////////////
-
-    var earthGeo = new THREE.SphereGeometry(300 * 0.99, 100, 50);
-    var earth = THREE.SceneUtils.createMultiMaterialObject(earthGeo, [
-        new THREE.MeshPhongMaterial({
-            color: 0xfefefe,
-            transparent: true,
-            opacity: 0.5,
-            combine: THREE.MultiplyOperation,
-            name: 'earth1'
-        }),
-        new THREE.MeshBasicMaterial({
-            color: 0x002A52,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending,
-            side: THREE.DoubleSide,
-            name: 'earth2'
-        }),
-        new THREE.MeshBasicMaterial({
-            color: 0xf0f0f0,
-            transparent: true,
-            opacity: 0.1,
-            blending: THREE.AdditiveBlending,
-            wireframe: true,
-            side: THREE.FrontSide,
-            name: 'earth3'
-        }),
-    ]);
-    return earth;
 });

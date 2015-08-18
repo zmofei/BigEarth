@@ -1,6 +1,6 @@
 define(function() {
     // create the geometry sphere
-    var geometry = new THREE.SphereGeometry(30000, 100, 50);
+    var geometry = new THREE.SphereGeometry(100000, 100, 100);
     // create the material, using a texture of startfield
     var material = new THREE.MeshBasicMaterial()
     material.map = THREE.ImageUtils.loadTexture('img/galaxy_starfield.png')

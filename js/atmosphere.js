@@ -23,7 +23,6 @@ define(['effectComposer', 'copyShader', 'shaderPass', 'renderPass', 'additiveBle
             } else {
                 sacle = 1
             }
-            console.log(sacle)
             ball.scale.x = ball.scale.y = ball.scale.z = sacle
         })
     });

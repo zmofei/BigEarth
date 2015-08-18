@@ -35,9 +35,9 @@ define(function() {
         // put data to geometry
         for (var i in ret) {
             var ver = lonlatToVec(ret[i][1], ret[i][0]);
-            if (ret[i][2] < 400000) {
+            if (ret[i][2] < 100000) {
                 geometrySmall.vertices.push(ver);
-            } else if (ret[i][2] > 400000) {
+            } else if (ret[i][2] > 100000) {
                 geometryBig.vertices.push(ver);
             }
         }
@@ -70,9 +70,9 @@ define(function() {
         light.add(meshSmall);
         light.add(meshBig);
 
-        camera.position.x = 434.25;
-        camera.position.y = 251.38;
-        camera.position.z = -108.54;
+        // camera.position.x = 434.25;
+        // camera.position.y = 251.38;
+        // camera.position.z = -108.54;
 
         console.timeEnd('total');
     });
