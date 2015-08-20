@@ -15,7 +15,7 @@ define(function () {
     }
 
     function pc(vertice, material) {
-        console.log(vertice, material);
+        // console.log(vertice, material);
         var geometry = new THREE.Geometry();
         for (var i in vertice) {
             var ver = lonlatToVec(vertice[i][1], vertice[i][0]);

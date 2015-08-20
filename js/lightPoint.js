@@ -1,5 +1,7 @@
 define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
     var light = new THREE.Object3D();
+    var twinkle = new THREE.Object3D();
+    light.add(twinkle);
     var geometrySmall = new THREE.Geometry();
     var geometryBig = new THREE.Geometry();
 
@@ -39,10 +41,7 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
         console.info('the data and length is :', ret, ret.length);
 
         // put data to geometry
-
-        //
-        var verArr = arrayPersent('6,6,6,6,6,6,3,1', ret);
-        var materialOptions = [{
+        var material = {
             size: 1,
             color: 0xFFFFFF,
             blending: THREE.AdditiveBlending,
@@ -52,86 +51,65 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
             map: THREE.ImageUtils.loadTexture(
                 "img/particle.png"
             ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.2,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.3,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.4,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.5,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.6,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 1,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.7,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }, {
-            size: 2,
-            color: 0xFFFFFF,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            opacity: 0.8,
-            transparent: true,
-            map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
-            ),
-        }]
+        };
+        //
+        var verArr = arrayPersent('60,60,60,60,60,60,60,10,3,3', ret);
 
         for (var i in verArr) {
-            var ligthLayer = lc(verArr[i], materialOptions[i]);
+            var useMaterial = material;
+            useMaterial.size = 1;
+            useMaterial.opacity = (parseInt(i) + 1) * 0.1;
+            var ligthLayer = lc(verArr[i], useMaterial);
+            ligthLayer.name = i;
             light.add(ligthLayer);
+            // twinkle
+            if (i > 6) {
+                useMaterial.size = 2;
+                useMaterial.opacity = 1;
+                var ligthLayer = lc(verArr[i], useMaterial);
+                ligthLayer.name = 'tk_' + i;
+                twinkle.add(ligthLayer)
+            }
         }
+
+        // for (var i in light.children) {
+        //         moveStar(light.children[i]);
+        // }
+
+        // console.log(light.children)
+        var time = 0;
+        requirejs(['renderFcts'], function (fcts) {
+            fcts.listen(function () {
+                time++;
+                if (time >= 99999) {
+                    time = 0;
+                }
+                if (time % (60 * 1) === 0) {
+                    for (var i in twinkle.children) {
+                        moveStar(twinkle.children[i]);
+                    }
+                }
+            })
+        });
 
         console.timeEnd('total');
     });
 
+    function moveStar(geo) {
+        // console.log(geo.geometry.vertices);
+        for (var i in geo.geometry.vertices) {
+            if (Math.random() < 0.5) {
+                geo.geometry.vertices[i].x = 0
+                geo.geometry.vertices[i].y = 0
+                geo.geometry.vertices[i].z = 0
+            } else {
+                geo.geometry.vertices[i].x = geo.geometry.vertices[i]._x
+                geo.geometry.vertices[i].y = geo.geometry.vertices[i]._y
+                geo.geometry.vertices[i].z = geo.geometry.vertices[i]._z
+            }
+        }
+        geo.geometry.verticesNeedUpdate = true
+    }
 
     // animate
     // setInterval(function () {
