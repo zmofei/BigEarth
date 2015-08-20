@@ -45,8 +45,6 @@ requirejs(['atmosphere'], function (atmosphere) {
     // atmo = atmosphere;
 })
 
-// var backgroundLight = new THREE.HemisphereLight(0x002A52, 0x000000, 7);
-// scene.add(backgroundLight);
 var speed = 0.0003;
 window.addEventListener('keydown', function (e) {
     if (e.keyCode == 37) {
@@ -57,7 +55,6 @@ window.addEventListener('keydown', function (e) {
     }
     console.log(speed);
 });
-
 //
 var render = function () {
     controls.update();
