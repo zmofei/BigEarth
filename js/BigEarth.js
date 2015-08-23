@@ -21,28 +21,37 @@ document.body.appendChild(renderer.domElement);
 var earths = new THREE.Object3D();
 scene.add(earths);
 // lightPoint
-requirejs(['lightPoint'], function (light) {
-    earths.add(light);
-})
+// requirejs(['lightPoint'], function (light) {
+    // earths.add(light);
+// })
 
 // earth
-requirejs(['earth'], function (earth) {
-    earths.add(earth)
-})
+// requirejs(['earth'], function (earth) {
+//     earths.add(earth)
+// })
 
 //field
-requirejs(['field'], function (field) {
-    scene.add(field)
-})
-requirejs(['stars'], function (stars) {
-    scene.add(stars)
-})
+// requirejs(['field'], function (field) {
+//     scene.add(field)
+// })
+// requirejs(['stars'], function (stars) {
+//     scene.add(stars)
+// })
 
 // atmosphere
 var atmo;
-requirejs(['atmosphere'], function (atmosphere) {
-    earths.add(atmosphere);
-    // atmo = atmosphere;
+// requirejs(['atmosphere'], function (atmosphere) {
+//     earths.add(atmosphere);
+// })
+
+// add mumber plant
+requirejs(['mumber'], function (Num) {
+    window.n = new Num('number', {
+        color: '#fff'
+    });
+    // setInterval(function () {
+    //     n.setNumber((Math.random()*Math.pow(10,(Math.random()*10)|0))|0)
+    // }, 4000)
 })
 
 var speed = 0.0003;

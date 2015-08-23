@@ -12,8 +12,8 @@ define(function() {
         map: THREE.ImageUtils.loadTexture('img/night.png')
     });
 
-    material.bumpMap = THREE.ImageUtils.loadTexture('img/earthbump1k.png')
-    material.bumpScale = 0.05
+    // material.bumpMap = THREE.ImageUtils.loadTexture('img/earthbump1k.png')
+    // material.bumpScale = 0.05
 
     material.specularMap = THREE.ImageUtils.loadTexture('img/earthspec1k.png')
     material.specular = new THREE.Color('#333')
