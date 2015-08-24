@@ -7,7 +7,15 @@
 </head>
 
 <body>
-    <div class="number" id="number"></div>
+    <div class="panel">
+        <div>Online User</div>
+        <div id="online"></div>
+        <div>Height (KM)</div>
+        <div id="height"></div>
+        <div>Rotate Speed (KM/S)</div>
+        <div id="speed"></div>
+    </div>
+
     <script type="x-shader/x-vertex" id="vertexShaderAtmosphere">
         varying vec3 vNormal;
         void main() {
@@ -37,6 +45,23 @@
         void main() {
             float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 );
             gl_FragColor = vec4(  0.55, .8, 1.0, 1.0 ) * intensity;
+        }
+    </script>
+
+    <script type="x-shader/x-vertex" id="lightVertexShader">
+        attribute vec4 a_Position;
+        attribute float a_PointSize;
+        void main() {
+            gl_Position = a_Position;
+            gl_PointSize = a_PointSize;
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="lightFragmentShader">
+        precision mediump float;
+        uniform vec4 u_FragColor;
+        void main() {
+            gl_FragColor = u_FragColor;
         }
     </script>
     <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>

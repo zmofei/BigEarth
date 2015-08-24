@@ -20,55 +20,76 @@ document.body.appendChild(renderer.domElement);
 
 var earths = new THREE.Object3D();
 scene.add(earths);
+
 // lightPoint
-// requirejs(['lightPoint'], function (light) {
-    // earths.add(light);
-// })
-
-// earth
-// requirejs(['earth'], function (earth) {
-//     earths.add(earth)
-// })
-
-//field
-// requirejs(['field'], function (field) {
-//     scene.add(field)
-// })
-// requirejs(['stars'], function (stars) {
-//     scene.add(stars)
-// })
-
-// atmosphere
-var atmo;
-// requirejs(['atmosphere'], function (atmosphere) {
-//     earths.add(atmosphere);
-// })
-
-// add mumber plant
-requirejs(['mumber'], function (Num) {
-    window.n = new Num('number', {
-        color: '#fff'
-    });
-    // setInterval(function () {
-    //     n.setNumber((Math.random()*Math.pow(10,(Math.random()*10)|0))|0)
-    // }, 4000)
+requirejs(['lightPoint'], function (light) {
+    earths.add(light);
 })
 
-var speed = 0.0003;
+// earth
+requirejs(['earth'], function (earth) {
+    earths.add(earth)
+})
+
+//field
+requirejs(['field'], function (field) {
+    scene.add(field)
+})
+requirejs(['stars'], function (stars) {
+    scene.add(stars)
+})
+
+// atmosphere
+requirejs(['atmosphere'], function (atmosphere) {
+    earths.add(atmosphere);
+})
+
+// window.rotSpeed = 0.0003;
+window.rotSpeed = 0;
+// add mumber plant
+requirejs(['mumber'], function (Num) {
+    var online = new Num('online', {
+        color: '#fff'
+    });
+    var height = new Num('height', {
+        color: '#fff'
+    });
+    var speed = new Num('speed', {
+        color: '#fff'
+    });
+
+    setInterval(function () {
+        // online
+        var randomNum = 300000 * Math.random() | 0
+        randomNum += 1500000;
+        online.setNumber(randomNum);
+        // speed
+        speed.setNumber((((rotSpeed * 30) / Math.PI) * 40076).toFixed(2));
+        // height
+        var x = camera.position.x;
+        var y = camera.position.y;
+        var z = camera.position.z;
+        var d = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2), 2);
+        var hei = ((d - 300) * 6371.393) / 300
+        height.setNumber(hei.toFixed(2));
+    }, 1000);
+})
+
+
 window.addEventListener('keydown', function (e) {
     if (e.keyCode == 37) {
-        speed -= 0.0005;
+        rotSpeed -= 0.0005;
     }
     if (e.keyCode == 39) {
-        speed += 0.0005;
+        rotSpeed += 0.0005;
     }
-    console.log(speed);
+    console.log(rotSpeed);
 });
 //
 var render = function () {
     controls.update();
     renderer.render(scene, camera);
-    earths.rotateY(speed)
+    earths.rotateY(rotSpeed)
     requirejs(['statsFrame', 'renderFcts'], function (stats, fcts) {
         fcts.update();
         stats.update();

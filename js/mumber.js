@@ -14,9 +14,9 @@ define(function () {
     };
 
     var defaultOpt = {
-        number: 1312412412414,
+        number: 0,
         height: 40,
-        fontSize: 40,
+        fontSize: 24,
         color: '#000'
     }
 
@@ -50,14 +50,16 @@ define(function () {
         var needBlankLength = numArr.length - self.NumberBlank.length;
         for (var i = 0; i < Math.abs(needBlankLength); i++) {
             var blank = document.createElement('span');
+            blank.style.fontFamily = 'arial, sans-serif';
             blank.style.display = 'inline-block';
+            blank.style.transition = 'top 0.2s ease-in';
+            blank.style.top = '0px';
             blank.style.fontSize = parseInt(this.option.fontSize) + 'px';
             blank.style.color = this.option.color;
             blank.style.lineHeight = parseInt(this.option.height) + 'px';
             blank.style.height = parseInt(this.option.height) + 'px';
             blank.style.width = '25px';
             blank.style.textAlign = 'center';
-            // blank.textContent = numArr.pop();
             blank.textContent = 0;
             if (needBlankLength < 0) {
                 // the show dom is more than we need, just remove it
@@ -75,7 +77,6 @@ define(function () {
     };
 
     Num.prototype.setNumber = function (number) {
-        console.log('setNumber', number);
         // fit the dom
         this.initNumberBlank(number);
         //
@@ -83,7 +84,6 @@ define(function () {
     }
 
     Num.prototype.animate = function (newNum) {
-        console.log(arguments);
         var self = this;
         var newNumArr = newNum.toString().split('');
         var newDoms = [];
@@ -93,15 +93,13 @@ define(function () {
         for (var i in self.NumberBlank) {
             var dom = self.NumberBlank[i];
             var left = dom.offsetLeft;
+
             dom.style.left = left + 'px';
-            (function (dom) {
-                setTimeout(function () {
-                    dom.style.position = 'absolute';
-                });
-            })(dom);
+            dom.style.top = '0px';
+            // dom.style.position = 'absolute';
 
             // add new number Dom
-            console.log(dom.textContent, '->', newNumArr[i])
+            // console.log(dom.textContent, '->', newNumArr[i])
             if (newNumArr[i] !== dom.textContent) {
                 var newDom = dom.cloneNode();
                 var height = -self.option.height;
@@ -121,13 +119,23 @@ define(function () {
             }
         }
 
+        for (var i in self.NumberBlank) {
+            var dom = self.NumberBlank[i];
+            dom.style.position = 'absolute';
+        };
+
+
+
         // move new and old dom
-
+        // return false;
+        var spans = self.dom.children;
+        // console.log(spans);
+        for (var i in spans) {
+            if (!spans.hasOwnProperty(i)) continue;
+            spans[i].style.top = spans[i].dataset.dest + 'px';
+        }
+        // return false;
         setTimeout(function () {
-
-
-            // put old dom back
-
             // remove new Dom
             for (var i in newDoms) {
                 self.dom.removeChild(newDoms[i]);
@@ -138,6 +146,7 @@ define(function () {
                 var left = dom.offsetLeft;
                 dom.style.position = '';
                 dom.style.left = '';
+                dom.style.top = '';
                 delete dom.dataset.dest;
                 // change old dom's val
                 if (dom.dataset.newVal) {
@@ -148,7 +157,7 @@ define(function () {
 
             // release the box width
             self.dom.style.width = '';
-        }, 2000);
+        }, 400);
     }
     return Num;
 });

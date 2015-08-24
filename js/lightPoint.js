@@ -22,7 +22,7 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
 
     // get data
     console.time('get data');
-    $.get('js/lnglat_china.data', function (data) {
+    $.get('js/lnglat_china2.data', function (data) {
         console.timeEnd('get data');
         console.time('format data');
         var datas = data.split('\n');
@@ -57,17 +57,24 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
 
         for (var i in verArr) {
             var useMaterial = material;
-            useMaterial.size = 1;
-            useMaterial.opacity = (parseInt(i) + 1) * 0.1;
-            var ligthLayer = lc(verArr[i], useMaterial);
-            ligthLayer.name = i;
-            light.add(ligthLayer);
-            // twinkle
-            if (i > 6) {
-                useMaterial.size = 2;
-                useMaterial.opacity = 1;
+            if (i <= 10) {
+                useMaterial.size = 0.31;
+                useMaterial.opacity = (parseInt(i) + 1) * 0.1;
+                // useMaterial.opacity = 1;
                 var ligthLayer = lc(verArr[i], useMaterial);
-                ligthLayer.name = 'tk_' + i;
+                ligthLayer.name = i;
+                light.add(ligthLayer);
+            }
+
+            // twinkle
+            if (i > 7) {
+                useMaterial.size = 3;
+                useMaterial.opacity = 1;
+                // useMaterial.map = THREE.ImageUtils.loadTexture(
+                //     "img/particle.jpg"
+                // );
+                var ligthLayer = lc(verArr[i], useMaterial);
+                // ligthLayer.name = 'tk_' + i;
                 twinkle.add(ligthLayer)
             }
         }

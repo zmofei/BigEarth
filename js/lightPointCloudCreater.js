@@ -1,5 +1,5 @@
 define(function () {
-    var radius = 300;
+    var radius = 301;
 
     function lonlatToVec(lon, lat) {
         var y = radius * Math.sin(lon * Math.PI / 180);
@@ -13,13 +13,23 @@ define(function () {
         vertice._z = z;
         return vertice;
     }
+    window.count = window.count || {};
 
     function pc(vertice, material) {
         // console.log(vertice, material);
         var geometry = new THREE.Geometry();
         for (var i in vertice) {
             var ver = lonlatToVec(vertice[i][1], vertice[i][0]);
-            geometry.vertices.push(ver);
+            // geometry.vertices.push(ver);
+
+            var times = parseInt(vertice[i][2] / 10000);
+            times = Math.min(times, 1);
+            times = Math.max(times, 1);
+            // times = 10;
+            for (var i = 0; i < times; i++) {
+                geometry.vertices.push(ver);
+            }
+
         }
         return new THREE.PointCloud(geometry, new THREE.PointCloudMaterial(material));
     }

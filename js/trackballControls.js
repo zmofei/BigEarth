@@ -2,7 +2,7 @@
  * @author Eberhard Graether / http://egraether.com/
  */
 
-THREE.TrackballControls = function(object, domElement) {
+THREE.TrackballControls = function (object, domElement) {
 
     var _this = this;
     var STATE = {
@@ -84,7 +84,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     // methods
 
-    this.handleResize = function() {
+    this.handleResize = function () {
 
         if (this.domElement === document) {
 
@@ -101,7 +101,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.handleEvent = function(event) {
+    this.handleEvent = function (event) {
 
         if (typeof this[event.type] == 'function') {
 
@@ -111,7 +111,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.getMouseOnScreen = function(clientX, clientY) {
+    this.getMouseOnScreen = function (clientX, clientY) {
 
         return new THREE.Vector2(
             (clientX - _this.screen.left) / _this.screen.width, (clientY - _this.screen.top) / _this.screen.height
@@ -119,7 +119,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.getMouseProjectionOnBall = function(clientX, clientY) {
+    this.getMouseProjectionOnBall = function (clientX, clientY) {
 
         var mouseOnBall = new THREE.Vector3(
             (clientX - _this.screen.width * 0.5 - _this.screen.left) / (_this.screen.width * .5), (_this.screen.height * 0.5 + _this.screen.top - clientY) / (_this.screen.height * .5),
@@ -160,7 +160,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.rotateCamera = function() {
+    this.rotateCamera = function () {
 
         var angle = Math.acos(_rotateStart.dot(_rotateEnd) / _rotateStart.length() / _rotateEnd.length());
 
@@ -193,7 +193,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.zoomCamera = function() {
+    this.zoomCamera = function () {
 
         if (_state === STATE.TOUCH_ZOOM) {
 
@@ -225,7 +225,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.panCamera = function() {
+    this.panCamera = function () {
 
         var mouseChange = _panEnd.clone().sub(_panStart);
 
@@ -253,7 +253,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.checkDistances = function() {
+    this.checkDistances = function () {
 
         if (!_this.noZoom || !_this.noPan) {
 
@@ -273,7 +273,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.update = function() {
+    this.update = function () {
 
         _eye.subVectors(_this.object.position, _this.target);
 
@@ -311,7 +311,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     };
 
-    this.reset = function() {
+    this.reset = function () {
 
         _state = STATE.NONE;
         _prevState = STATE.NONE;
@@ -549,7 +549,7 @@ THREE.TrackballControls = function(object, domElement) {
 
     }
 
-    this.domElement.addEventListener('contextmenu', function(event) {
+    this.domElement.addEventListener('contextmenu', function (event) {
         event.preventDefault();
     }, false);
 
