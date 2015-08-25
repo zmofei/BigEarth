@@ -6,9 +6,9 @@ console.time('total');
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000000);
-camera.position.x = 400;
-camera.position.y = 230;
-camera.position.z = -100;
+camera.position.x = 0;
+camera.position.y = 0;
+camera.position.z = 500;
 
 var controls = new THREE.TrackballControls(camera);
 controls.minDistance = 305;
@@ -19,6 +19,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 var earths = new THREE.Object3D();
+earths.rotateX(30 * Math.PI / 180);
+earths.rotateY(-100 * Math.PI / 180)
 scene.add(earths);
 
 // lightPoint
@@ -44,8 +46,8 @@ requirejs(['atmosphere'], function (atmosphere) {
     earths.add(atmosphere);
 })
 
-// window.rotSpeed = 0.0003;
-window.rotSpeed = 0;
+window.rotSpeed = 0.0003;
+// window.rotSpeed = 0;
 // add mumber plant
 requirejs(['mumber'], function (Num) {
     var online = new Num('online', {
@@ -77,11 +79,14 @@ requirejs(['mumber'], function (Num) {
 
 
 window.addEventListener('keydown', function (e) {
+    if (e.keyCode == 32) {
+        rotSpeed = 0;
+    }
     if (e.keyCode == 37) {
-        rotSpeed -= 0.0005;
+        rotSpeed -= 0.0003;
     }
     if (e.keyCode == 39) {
-        rotSpeed += 0.0005;
+        rotSpeed += 0.0003;
     }
     console.log(rotSpeed);
 });

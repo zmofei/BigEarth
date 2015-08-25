@@ -1,8 +1,8 @@
-define(function() {
+define(function () {
     var earth = new THREE.Object3D();
-    var light = new THREE.AmbientLight(0x888888)
+    var light = new THREE.AmbientLight(0xFFFFFF)
     earth.add(light)
-    var light = new THREE.DirectionalLight(0xcccccc, 1)
+    var light = new THREE.DirectionalLight(0xffffff, 1)
     light.position.set(0, 4000, 0)
     earth.add(light)
 
@@ -16,7 +16,7 @@ define(function() {
     // material.bumpScale = 0.05
 
     material.specularMap = THREE.ImageUtils.loadTexture('img/earthspec1k.png')
-    material.specular = new THREE.Color('#333')
+    material.specular = new THREE.Color('#444')
 
     var mesh = new THREE.Mesh(geometry, material);
     earth.add(mesh)
@@ -35,8 +35,8 @@ define(function() {
     //
     earth.rotateY(-Math.PI / 2);
 
-    requirejs(['renderFcts'], function(fcts) {
-        fcts.listen(function() {
+    requirejs(['renderFcts'], function (fcts) {
+        fcts.listen(function () {
             cloudMesh.rotateY(0.0002);
             //
             var x = camera.position.x;

@@ -165,7 +165,7 @@ THREE.TrackballControls = function (object, domElement) {
         var angle = Math.acos(_rotateStart.dot(_rotateEnd) / _rotateStart.length() / _rotateEnd.length());
 
         if (angle) {
-
+            // console.log(_rotateStart, _rotateEnd);
             var axis = (new THREE.Vector3()).crossVectors(_rotateStart, _rotateEnd).normalize(),
                 quaternion = new THREE.Quaternion();
 
@@ -226,7 +226,6 @@ THREE.TrackballControls = function (object, domElement) {
     };
 
     this.panCamera = function () {
-
         var mouseChange = _panEnd.clone().sub(_panStart);
 
         if (mouseChange.lengthSq()) {
@@ -413,7 +412,6 @@ THREE.TrackballControls = function (object, domElement) {
         event.stopPropagation();
 
         if (_state === STATE.ROTATE && !_this.noRotate) {
-
             _rotateEnd = _this.getMouseProjectionOnBall(event.clientX, event.clientY);
 
         } else if (_state === STATE.ZOOM && !_this.noZoom) {

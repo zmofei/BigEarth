@@ -20,10 +20,23 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
         return vertice;
     }
 
+
     // get data
     console.time('get data');
     $.get('js/lnglat_china2.data', function (data) {
+        // console.time('worker format data');
+        // //
+        // var myWorkder = new Worker('js/WFormartData.js');
+        // myWorkder.onmessage = function (argument) {
+        //     console.timeEnd('worker format data');
+        //     // console.log('ret', argument);
+        // }
+        // myWorkder.postMessage({
+        //     'data': data
+        // });
+        //
         console.timeEnd('get data');
+        // return false
         console.time('format data');
         var datas = data.split('\n');
         var ret = [];
@@ -32,14 +45,13 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
                 ret.push(val.split('\t'));
             }
         })
-        console.timeEnd('format data');
-
         ret.sort(function (a, b) {
             // console.log(a)
             return parseInt(a[2]) - parseInt(b[2])
         });
-        console.info('the data and length is :', ret, ret.length);
-
+        console.timeEnd('format data'); //3400
+        // console.info('the data and length is :', ret, ret.length);
+        console.time('render point');
         // put data to geometry
         var material = {
             size: 1,
@@ -49,16 +61,16 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
             opacity: 0.1,
             transparent: true,
             map: THREE.ImageUtils.loadTexture(
-                "img/particle.png"
+                "img/particle5.png"
             ),
         };
         //
         var verArr = arrayPersent('60,60,60,60,60,60,60,10,3,3', ret);
-
+        var border = 6;
         for (var i in verArr) {
             var useMaterial = material;
-            if (i <= 10) {
-                useMaterial.size = 0.31;
+            if (i <= border) {
+                useMaterial.size = 0.8;
                 useMaterial.opacity = (parseInt(i) + 1) * 0.1;
                 // useMaterial.opacity = 1;
                 var ligthLayer = lc(verArr[i], useMaterial);
@@ -67,7 +79,7 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
             }
 
             // twinkle
-            if (i > 7) {
+            if (i > border) {
                 useMaterial.size = 3;
                 useMaterial.opacity = 1;
                 // useMaterial.map = THREE.ImageUtils.loadTexture(
@@ -78,11 +90,7 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
                 twinkle.add(ligthLayer)
             }
         }
-
-        // for (var i in light.children) {
-        //         moveStar(light.children[i]);
-        // }
-
+        console.timeEnd('render point'); //5000
         // console.log(light.children)
         var time = 0;
         requirejs(['renderFcts'], function (fcts) {
@@ -117,22 +125,6 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
         }
         geo.geometry.verticesNeedUpdate = true
     }
-
-    // animate
-    // setInterval(function () {
-    //     for (var i in geometryBig.vertices) {
-    //         if (Math.random() < 0.5) {
-    //             geometryBig.vertices[i].x = 0
-    //             geometryBig.vertices[i].y = 0
-    //             geometryBig.vertices[i].z = 0
-    //         } else {
-    //             geometryBig.vertices[i].x = geometryBig.vertices[i]._x
-    //             geometryBig.vertices[i].y = geometryBig.vertices[i]._y
-    //             geometryBig.vertices[i].z = geometryBig.vertices[i]._z
-    //         }
-    //     }
-    //     geometryBig.verticesNeedUpdate = true
-    // }, 1000);
 
     return light;
 })
