@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>webGL BigEarth</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+
+<body>
+    <div class="panel">
+        <div>Online User</div>
+        <div id="online"></div>
+        <div>Height (KM)</div>
+        <div id="height"></div>
+        <div>Rotate Speed (KM/S)</div>
+        <div id="speed"></div>
+    </div>
+
+    <script type="x-shader/x-vertex" id="vertexShaderAtmosphere">
+        varying vec3 vNormal;
+        void main() {
+            vNormal = normalize( normalMatrix * normal );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentShaderAtmosphere">
+        uniform float c;
+        uniform float p;
+        varying vec3 vNormal;
+        void main() {
+            float intensity = pow( c - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), p );
+            gl_FragColor = vec4( 0.55, .8, 1.0, 1.0 ) * intensity;
+        }
+    </script>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+        varying vec3 vNormal;
+        void main() {
+            vNormal = normalize( normalMatrix * normal );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-vertex">
+        varying vec3 vNormal;
+        void main() {
+            float intensity = pow( 0.7 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 4.0 );
+            gl_FragColor = vec4(  0.55, .8, 1.0, 1.0 ) * intensity;
+        }
+    </script>
+
+    <script type="x-shader/x-vertex" id="lightVertexShader">
+        attribute vec4 a_Position;
+        attribute float a_PointSize;
+        void main() {
+            gl_Position = a_Position;
+            gl_PointSize = a_PointSize;
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="lightFragmentShader">
+        precision mediump float;
+        uniform vec4 u_FragColor;
+        void main() {
+            gl_FragColor = u_FragColor;
+        }
+    </script>
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/require.js"></script>
+    <script type="text/javascript" src="js/stats.js"></script>
+    <script type="text/javascript" src="js/three.js"></script>
+    <script type="text/javascript" src="js/trackballControls.js"></script>
+    <script type="text/javascript" src="js/BigEarth_line.js"></script>
+</body>
+
+</html>
