@@ -1,4 +1,4 @@
-require.config({
+﻿require.config({
     baseUrl: "js/",
 })
 
@@ -47,10 +47,12 @@ requirejs(['atmosphere'], function (atmosphere) {
 })
 
 window.rotSpeed = 0.0003;
-// window.rotSpeed = 0;
 // add mumber plant
 requirejs(['mumber'], function (Num) {
-    var online = new Num('online', {
+    var pv = new Num('pv', {
+        color: '#fff'
+    });
+    var uv = new Num('uv', {
         color: '#fff'
     });
     var height = new Num('height', {
@@ -61,10 +63,14 @@ requirejs(['mumber'], function (Num) {
     });
 
     setInterval(function () {
-        // online
-        var randomNum = 300000 * Math.random() | 0
-        randomNum += 1500000;
-        online.setNumber(randomNum);
+        // pv
+        var randomNum = 1000000000 * Math.random() | 0
+        randomNum += 22000000000;
+        pv.setNumber(randomNum);
+        // uv
+        var randomNum = 10000000 * Math.random() | 0
+        randomNum += 450000000;
+        uv.setNumber(randomNum);
         // speed
         speed.setNumber((((rotSpeed * 30) / Math.PI) * 40076).toFixed(2));
         // height
@@ -74,7 +80,7 @@ requirejs(['mumber'], function (Num) {
         var d = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2), 2);
         var hei = ((d - 300) * 6371.393) / 300
         height.setNumber(hei.toFixed(2));
-    }, 1000);
+    }, 3000);
 })
 
 

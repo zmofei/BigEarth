@@ -5,6 +5,8 @@ html {
 }
 
 #online,
+#pv,
+#uv,
 #height,
 #speed {
     position: relative;

@@ -1,4 +1,16 @@
 define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
+    var tips = document.createElement('div');
+    tips.style.position = 'absolute';
+    tips.style.top = '37.5%';
+    tips.style.width = '100%';
+    tips.style.fontSize = '30px';
+    tips.style.background = 'rgba(0,0,0,0.5)';
+    tips.style.textAlign = 'center';
+    tips.style.padding = '15px';
+    tips.style.color = '#fff';
+    tips.innerHTML = '加载数据中，请稍后...';
+    document.body.appendChild(tips);
+
     var light = new THREE.Object3D();
     var twinkle = new THREE.Object3D();
     light.add(twinkle);
@@ -108,6 +120,7 @@ define(['arrayPersent', 'lightPointCloudCreater'], function (arrayPersent, lc) {
         });
 
         console.timeEnd('total');
+        tips.remove();
     });
 
     function moveStar(geo) {
